@@ -2,15 +2,18 @@ require 'sinatra'
 
 get '/' do
 
-	# Loads the view file
+	# Loads the view
 	erb :'index'
 
 end
 
 post '/' do
 	
-	# Loads the view file
-	erb :'index'
+	# Gets de DN value
+	@dna = params[:dna]
+
+	# Loads the result view
+	erb :'result'
 
 end
 
