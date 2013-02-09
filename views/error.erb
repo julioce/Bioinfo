@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Bioinfo</title>
+		<title>Sequenciador de DNA</title>
 		<link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
 	</head>
 	<body>
 		<div id="main">
-		<h1>Houve um erro no sistema.</h1>
-		<h2><%=@error_message%></h2>
+			<h1>Sequenciador de DNA</h1>
+			<p><%=@error_message%></p>
+			<form method="POST">
+				<fieldset>
+					<legend>Insira somente a sequencia de DNA a ser avaliada</legend>
+					<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna%></textarea>
+					<input type="submit" value="Enviar"/>
+				</fieldset>
+			</form>
 		</div>
 	</body>
 </html>

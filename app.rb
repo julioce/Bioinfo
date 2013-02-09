@@ -1,35 +1,47 @@
 # encoding: utf-8
-
 require 'sinatra'
 
-get '/' do
+# Default values
+CODON_TO_AMIOACID_HASH = {"TTT" => "F", "TTC" => "F", "TTA" => "L", "TTG" => "L", "TCT" => "S", "TCC" => "S", "TCA" => "S", "TCG" => "S", "TAT" => "Y", "TAC" => "Y", "TGT" => "C", "TGC" => "C", "TGG" => "W", "CTT" => "L", "CTC" => "L", "CTA" => "L", "CTG" => "L", "CCT" => "P", "CCC" => "P", "CCA" => "P", "CCG" => "P", "CAT" => "H", "CAC" => "H", "CAA" => "Q", "CAG" => "Q", "CGT" => "R", "CGC" => "R", "CGA" => "R", "CGG" => "R", "ATT" => "I", "ATC" => "I", "ATA" => "I", "ATG" => "M", "ACT" => "T", "ACC" => "T", "ACA" => "T", "ACG" => "T", "AAT" => "N", "AAC" => "N", "AAA" => "K", "AAG" => "K", "AGT" => "S", "AGC" => "S", "AGA" => "R", "AGG" => "R", "GTT" => "V", "GTC" => "V", "GTA" => "V", "GTG" => "V", "GCT" => "A", "GCC" => "A", "GCA" => "A", "GCG" => "A", "GAT" => "D", "GAC" => "D", "GAA" => "E", "GAG" => "E", "GGT" => "G", "GGC" => "G", "GGA" => "G", "GGG" => "G", "TAA" => "*", "TAG" => "*", "TGA" => "*"}
+NOT_MOD_3 = "Seu DNA não possui o número correto de códons, múltiplo de 3."
+ERROR = "O administrador do sistema será notificado."
 
+# Loads the start page
+get '/' do
 	# Loads the view
 	erb :'index'
-
 end
 
+# Process DNA and loads results
 post '/' do
+	# Gets de DNA value, make upper case and remove whitespaces
+	@dna = params[:dna].upcase.gsub(/\s+/, "")
 
-	# Gets de DNA value
-	@dna = params[:dna].upcase
-
-	#Verifies if it's mod 3 correct codon
+	# Verifies if it's mod 3 correct codon
 	if (@dna.size % 3) != 0
-		@error_message = "Seu DNA não possui o número correto de códons, múltiplo de 3."
+		@error_message = NOT_MOD_3
 		erb :'error'
 	else
-		# Associates de codon with the respective aminoacid 
-		@codon_to_amioacid_hash ={:ATG=> "M", :TCG=> "S", :GTA=> "V", :GAA=> "E", :GAC=> "D", :ATT=> "I", :TTT=> "F", :AAA=> "K", :ACT=> "T", :ATG=> "M", :TAT=> "Y", :GAA=> "E", :TCC=> "S", :GTA=> "V", :CCG=> "P", :GAA=> "E", :CCC=> "P", :AAG=> "K", :AAG=> "K", :AAT=> "K", :TGC=> "N"}
-		
+		# Variable to store the result protein
+		@protein = ""
+
+		# Associates de codon with the respective aminoacid
+		(@dna.size/3).times do |index|
+			# Gets the next 3 letters from offset index*3
+			codon = @dna[index*3, 3]
+			
+			# If's not a valid codon ommited
+			unless CODON_TO_AMIOACID_HASH[codon].nil?
+				@protein = @protein + CODON_TO_AMIOACID_HASH[codon]
+			end
+		end
 
 		# Loads the result view
 		erb :'result'
 	end
-
 end
 
 error do
-	@error_message = "O administrador do sistema será notificado."
+	@error_message = ERROR
 	erb :'error'
 end
