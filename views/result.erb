@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Sequenciador de DNA</title>
+		<title>Tradutor de DNA</title>
 		<link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
 	</head>
 	<body>
 		<div id="main">
-			<h1 class="title">Sequenciador de DNA</h1>
+			<h1 class="title">Tradutor de DNA</h1>
 			<p class="pStart">
 				Insira a sua sequencia de bases de DNA e clique em "Analisar"<br/> 
 			</p>
@@ -17,7 +17,7 @@
 				</div>
 			</form>
 			<h1 class="title">Proteína associada ao DNA</h1>
-			<textarea readonly="readonly" name="dna" rows="5", columns="300"><%=@protein%></textarea>
+			<textarea readonly="readonly" name="protein" id="protein" rows="5", columns="300"><%=@protein%></textarea>
 		</div>
 
 		<div id="bottom">
