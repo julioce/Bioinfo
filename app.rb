@@ -4,6 +4,7 @@ require 'sinatra'
 # Default values
 CODON_TO_AMIOACID_HASH = {"TTT" => "F", "TTC" => "F", "TTA" => "L", "TTG" => "L", "TCT" => "S", "TCC" => "S", "TCA" => "S", "TCG" => "S", "TAT" => "Y", "TAC" => "Y", "TGT" => "C", "TGC" => "C", "TGG" => "W", "CTT" => "L", "CTC" => "L", "CTA" => "L", "CTG" => "L", "CCT" => "P", "CCC" => "P", "CCA" => "P", "CCG" => "P", "CAT" => "H", "CAC" => "H", "CAA" => "Q", "CAG" => "Q", "CGT" => "R", "CGC" => "R", "CGA" => "R", "CGG" => "R", "ATT" => "I", "ATC" => "I", "ATA" => "I", "ATG" => "M", "ACT" => "T", "ACC" => "T", "ACA" => "T", "ACG" => "T", "AAT" => "N", "AAC" => "N", "AAA" => "K", "AAG" => "K", "AGT" => "S", "AGC" => "S", "AGA" => "R", "AGG" => "R", "GTT" => "V", "GTC" => "V", "GTA" => "V", "GTG" => "V", "GCT" => "A", "GCC" => "A", "GCA" => "A", "GCG" => "A", "GAT" => "D", "GAC" => "D", "GAA" => "E", "GAG" => "E", "GGT" => "G", "GGC" => "G", "GGA" => "G", "GGG" => "G", "TAA" => "*", "TAG" => "*", "TGA" => "*"}
 NOT_MOD_3 = "Seu DNA não possui o número correto de códons, múltiplo de 3."
+DNA_EMPTY = "Você precisa analisar pelo menos 1 códon."
 ERROR = "O administrador do sistema será notificado."
 
 # Loads the start page
@@ -15,10 +16,14 @@ end
 # Process DNA and loads results
 post '/' do
 	# Gets de DNA value, make upper case and remove whitespaces
-	@dna = params[:dna].upcase.gsub(/\s+/, "")
+	@dna = params[:dna].upcase.gsub(/\s+\r+\n+/, "")
 
+	# Verifies if it's not empty
+	if @dna.size == 0
+		@error_message = DNA_EMPTY
+		erb :'error'
 	# Verifies if it's mod 3 correct codon
-	if (@dna.size % 3) != 0
+	elsif (@dna.size % 3) != 0
 		@error_message = NOT_MOD_3
 		erb :'error'
 	else

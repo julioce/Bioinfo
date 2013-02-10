@@ -6,15 +6,26 @@
 	</head>
 	<body>
 		<div id="main">
-			<h1>Sequenciador de DNA</h1>
-			<p><%=@error_message%></p>
+			<h1 class="title">Sequenciador de DNA</h1>
+			<p class="pStart">
+				Insira a sua sequencia de bases de DNA e clique em "Analisar"<br/> 
+			</p>
+			<% if !@error_message.nil? %>
+				<div id="error_explanation">
+					<h2><%=@error_message%></h2>
+				</div>
+			<% end %>
 			<form method="POST">
-				<fieldset>
-					<legend>Insira somente a sequencia de DNA a ser avaliada</legend>
-					<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna%></textarea>
-					<input type="submit" value="Enviar"/>
-				</fieldset>
+				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna%></textarea>
+				<div class="actions">
+					<input type="submit" value="Analisar"/>
+				</div>
 			</form>
+		</div>
+
+		<div id="bottom">
+			<p>Aplicativo desenvolvido para a disciplina de Bioinformática - DCC, UFRJ</p>
+			<p>Júlio Bueno e Marcus Vinícius - 2012/02</p>
 		</div>
 	</body>
 </html>
