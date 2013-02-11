@@ -17,7 +17,7 @@ end
 # Process DNA and loads results
 post '/' do
 	# Gets de DNA value, make upper case and remove space and new lines
-	@dna = params[:dna].upcase.gsub(/\s+\r+\n+/, "")
+	@dna = params[:dna].upcase.gsub(/[\s\r\n]+/, "")
 
 	# Verifies if it's not empty DNA
 	if @dna.size == 0
@@ -36,7 +36,7 @@ post '/' do
 		@protein = ""
 
 		# Associates de codon with the respective aminoacid
-		@dna.size/3.times do |index|
+		(@dna.size/3).times do |index|
 			# Gets the next 3 letters from offset index*3
 			codon = @dna[index*3, 3]
 			
