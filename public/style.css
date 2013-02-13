@@ -47,6 +47,7 @@ textarea{
   height: 180px;
   width: 590px;
   font-size: 12px;
+  font-family: helvetica, verdana, arial, sans-serif;
   resize: none;
 }
 
@@ -133,6 +134,14 @@ input[type=submit]:active {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#E1E1E1));
 }
 
+#protein {
+  min-height: 180px;
+  width: 590px;
+  font-size: 12px;
+  border: 1px solid #999999;
+  background-color: #FFFFFF;
+}
+
 #bottom {
   width: 600px;
   margin: 0px auto 10px;
@@ -160,4 +169,13 @@ input[type=submit]:active {
   margin-bottom: 0px;
   background-color: #c00;
   color: #fff;
+}
+
+
+#protein span { 
+  border: 0px;
+  letter-spacing: -0.2em;
+  font-family: helvetica, verdana, arial, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
 }

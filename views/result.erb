@@ -3,6 +3,23 @@
 	<head>
 		<title>Tradutor de DNA</title>
 		<link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
+		<script>
+			function info(event){
+				// Get the span object
+				var caller = event.target || event.srcElement;
+
+				// Get the attibutes
+				var dna = caller.getAttribute("class");
+				var aminoacid_name = caller.getAttribute("title");
+				var aminoacid_letter = caller.innerText;
+
+				// Set message and show to user
+				var message = "Códon codificador: " + dna + "\n" +
+							  "Aminoácido respectivo: " + aminoacid_name + "\n" +  
+							  "Código do aminoácido: " + aminoacid_letter;
+	    		alert( message );
+			}
+		</script>
 	</head>
 	<body>
 		<div id="main">
@@ -17,7 +34,11 @@
 				</div>
 			</form>
 			<h1 class="title">Proteína associada ao DNA</h1>
-			<textarea readonly="readonly" name="protein" id="protein" rows="5", columns="300"><%=@protein%></textarea>
+			<p id="protein">
+				<% @protein.each do |aminoacid| %>
+					<span class="<%=aminoacid[0]%>" title="<%=aminoacid[2]%>" alt="<%=aminoacid[2]%>" onclick="info(event);" ><%=aminoacid[1]%></span>
+				<% end %>
+			</p>
 		</div>
 
 		<div id="bottom">
