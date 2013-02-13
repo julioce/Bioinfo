@@ -8,7 +8,7 @@
 				// Get the span object
 				var caller = event.target || event.srcElement;
 
-				// Get the attibutes
+				// Get the attibutes of result
 				var dna = caller.getAttribute("class");
 				var aminoacid_name = caller.getAttribute("title");
 				var aminoacid_letter = caller.textContent;
@@ -25,7 +25,7 @@
 		<div id="main">
 			<h1 class="title">Tradutor de DNA</h1>
 			<p class="pStart">
-				Insira a sua sequencia de bases de DNA e clique em "Analisar"<br/> 
+				Insira a sua sequência de bases de DNA e clique em "Analisar"<br/> 
 			</p>
 			<form method="POST">
 				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna%></textarea>
