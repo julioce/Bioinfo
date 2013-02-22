@@ -29,6 +29,10 @@ class DNA
 		@string = string
 	end
 
+	def to_s
+		@string
+	end
+
 	def treat_dna_string
 		@string = @string.upcase.gsub(/[\s\r\n]+/, "")
 	end

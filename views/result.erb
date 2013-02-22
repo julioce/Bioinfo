@@ -28,7 +28,7 @@
 				Insira a sua sequência de bases de DNA e clique em "Analisar"<br/> 
 			</p>
 			<form method="POST">
-				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna%></textarea>
+				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna.to_s%></textarea>
 				<div class="actions">
 					<input type="submit" value="Analisar"/>
 				</div>
