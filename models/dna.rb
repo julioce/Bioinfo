@@ -1,5 +1,3 @@
-require 'bio'
-
 class DNA
 
 	# Default values from http://www.cbs.dtu.dk/courses/27619/codon.html

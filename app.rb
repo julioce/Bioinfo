@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'sinatra'
 require 'bio'
+require 'open-uri'
 
 # Loads all models in models directory
 Dir['./models/*.rb'].each {|file| require_relative file }
@@ -50,8 +51,40 @@ post '/' do
 end
 
 post '/fasta' do
+	# Creates BioRuby object as sequence
 	sequence = Bio::Sequence::NA.new(params[:protein])
+
+	# Code the sequence to a valid FAST file
 	sequence.to_fasta("protein", 60)
+end
+
+post '/blast' do
+	# Assemble a PUT query for NCBI with the protein
+	QUERY_URL = "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?QUERY=" + params[:protein] + "&DATABASE=nr&PROGRAM=blastp&CMD=Put"
+
+	# Read the response page from NCBI
+	blast_page = open(QUERY_URL).read
+
+	# Get the rID from the BLAST query
+	rID = /value="(.*)" id="rid"/.match(blast_page).to_s[7, 11]
+
+	# Assemble the GET result query for BLAST
+	GET_URL = "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?RESULTS_FILE=on&RID=" + rID + "&FORMAT_TYPE=Text&FORMAT_OBJECT=Alignment&CMD=Get"
+
+	# Read the response page from NCBI
+	result_page = open(GET_URL).read
+
+	# The result may not be avaliable, waiting to run
+	while /class="WAITING"/.match(result_page).to_s.size > 0
+		# Waiting 2secs to try again
+		puts "Waiting more 5secs..."
+		sleep 5
+		# New Try
+		result_page = open(GET_URL).read
+	end
+
+	# Format to browser view
+	"<pre>" + result_page + "</pre>"
 end
 
 error do

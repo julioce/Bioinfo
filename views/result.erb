@@ -74,6 +74,14 @@
 					</tr>
 				</table>
 			</div>
+
+			<form method="POST" action="/blast">
+				<input type="hidden" name="protein" value="<%=@dna.protein_to_s @protein%>"/>
+				<div class="actions">
+					<input type="submit" value="BLAST"/>
+				</div>
+			</form>
+
 		</div>
 
 		<div id="bottom">
