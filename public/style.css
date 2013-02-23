@@ -13,8 +13,8 @@ pre {
 }
 
 .title {
-  font-size: 42px;
-  height: 60px;
+  font-size: 36px;
+  height: auto;
   width: auto;
   margin: 15px auto 0px;
   text-align: center;
@@ -44,8 +44,8 @@ input {
 }
 
 textarea{
-  height: 180px;
-  width: 590px;
+  height: 280px;
+  width: 595px;
   font-size: 12px;
   font-family: helvetica, verdana, arial, sans-serif;
   resize: none;
@@ -136,12 +136,21 @@ input[type=submit]:active {
 }
 
 #protein {
-  min-height: 180px;
-  width: 590px;
+  min-height: 80px;
+  width: 595px;
   font-size: 12px;
   border: 1px solid #999999;
   background-color: #FFFFFF;
 }
+
+#statistics {
+	margin-top: -80px;
+	width: 595px;
+	border: 1px solid #999999;
+}
+
+#statistics table td { text-align: center; }
+#statistics table td:first-child { text-align: left; }
 
 #bottom {
   width: 600px;

@@ -24,26 +24,61 @@
 	<body>
 		<div id="main">
 			<h1 class="title">Tradutor de DNA</h1>
+			
 			<p class="pStart">
-				Insira a sua sequência de bases de DNA e clique em "Analisar"<br/> 
+				Insira a sua sequência de bases de DNA e clique em "Traduzir"<br/> 
 			</p>
+			
 			<form method="POST">
 				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna.to_s%></textarea>
 				<div class="actions">
-					<input type="submit" value="Analisar"/>
+					<input type="submit" value="Traduzir"/>
 				</div>
 			</form>
+			
 			<h1 class="title">Proteína associada ao DNA</h1>
+			
 			<p id="protein">
 				<% @protein.each do |aminoacid| %>
 					<span class="<%=aminoacid[0]%>" title="<%=aminoacid[2]%>" alt="<%=aminoacid[2]%>" onclick="info(event);" ><%=aminoacid[1]%></span>
 				<% end %>
 			</p>
+			
+			<form method="POST" action="/fasta">
+				<input type="hidden" name="protein" value="<%=@dna.protein_to_s @protein%>"/>
+				<div class="actions">
+					<input type="submit" value="Arquivo FASTA"/>
+				</div>
+			</form>
+
+			<div id="statistics">
+				<table>
+					<th>Dados estatísticos da sequência</th>
+					<th>A</th>
+					<th>C</th>
+					<th>G</th>
+					<th>T</th>
+					<tr>
+						<td>Composição</td>
+						<td><%=@composition["a"]%></td>
+						<td><%=@composition["c"]%></td>
+						<td><%=@composition["g"]%></td>
+						<td><%=@composition["t"]%></td>
+					</tr>
+					<tr>
+						<td>Distribuição</td>
+						<td><%=(@distribution["a"]*100).round(2)%>%</td>
+						<td><%=(@distribution["c"]*100).round(2)%>%</td>
+						<td><%=(@distribution["g"]*100).round(2)%>%</td>
+						<td><%=(@distribution["t"]*100).round(2)%>%</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 
 		<div id="bottom">
 			<p>Aplicativo desenvolvido para a disciplina de Bioinformática - DCC, UFRJ</p>
-			<p>Júlio Bueno e Marcus Vinícius - 2012/02</p>
+			<p>Júlio Bueno e Marcus Vinicius - 2012/02</p>
 		</div>
 	</body>
 </html>

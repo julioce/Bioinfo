@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'sinatra'
+require 'bio'
 
 # Loads all models in models directory
 Dir['./models/*.rb'].each {|file| require_relative file }
@@ -37,10 +38,20 @@ post '/' do
 		erb :'error'
 	else
 		@protein = @dna.create_protein_string
+		sequence = Bio::Sequence::NA.new(@dna.to_s.downcase)
 
+		# Calculates composition and DNA distributions
+		@composition = sequence.composition
+		@distribution = @dna.distribution sequence
+		
 		# Loads the result view
 		erb :'result'
 	end
+end
+
+post '/fasta' do
+	sequence = Bio::Sequence::NA.new(params[:protein])
+	sequence.to_fasta("protein", 60)
 end
 
 error do

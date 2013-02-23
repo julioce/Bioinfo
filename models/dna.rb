@@ -1,3 +1,5 @@
+require 'bio'
+
 class DNA
 
 	# Default values from http://www.cbs.dtu.dk/courses/27619/codon.html
@@ -78,6 +80,26 @@ class DNA
 		end
 
 		return protein
+	end
+
+	def protein_to_s protein
+		string = ''
+		protein.each do |aminoacid|
+			string += aminoacid[1]
+		end
+
+		return string
+	end
+
+	def distribution sequence
+		lenght = sequence.length.to_f
+		
+		dist = {}
+
+		sequence.composition.each do |nuc, count|
+			dist[nuc] = count/lenght.to_f
+		end
+		return dist
 	end
 
 end
