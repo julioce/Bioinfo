@@ -26,7 +26,11 @@ class DNA
 							"*" => "Stop codons"}
 
 	def initialize string
-		@string = string
+		if string.nil?
+			@string = ""
+		else
+			@string = string
+		end
 	end
 
 	def to_s

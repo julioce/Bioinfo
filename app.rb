@@ -10,6 +10,7 @@ NOT_MOD_3 = "Seu DNA não possui o número correto de códons, múltiplo de 3 ba
 NOT_VALID_DNA = "Seu DNA parece não ser feito somente das bases A, C, G e T."
 DNA_EMPTY = "Você precisa analisar pelo menos 1 códon."
 ERROR = "Houve um erro no sistema.<br/>O administrador será notificado."
+BLAST_ERROR = "O NCBI BLAST não encontrou nenhum resultado.<br />Por favor tente outra sequência."
 
 # Loads the start page
 get '/' do
@@ -58,33 +59,31 @@ post '/fasta' do
 	sequence.to_fasta("protein", 60)
 end
 
+# http://www.ncbi.nlm.nih.gov/staff/tao/URLAPI/new/node4.html
 post '/blast' do
-	# Assemble a PUT query for NCBI with the protein
-	QUERY_URL = "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?QUERY=" + params[:protein] + "&DATABASE=nr&PROGRAM=blastp&CMD=Put"
+	# Creates a BLAST object
+	blast = BLAST.new params[:protein]
 
-	# Read the response page from NCBI
-	blast_page = open(QUERY_URL).read
+	# Send the requeste to NCBI server and get de rID of the search
+	rID = blast.get_rID
 
-	# Get the rID from the BLAST query
-	rID = /value="(.*)" id="rid"/.match(blast_page).to_s[7, 11]
+	# Gets the result file on text format
+	result_page = blast.get_file rID
 
-	# Assemble the GET result query for BLAST
-	GET_URL = "http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?RESULTS_FILE=on&RID=" + rID + "&FORMAT_TYPE=Text&FORMAT_OBJECT=Alignment&CMD=Get"
-
-	# Read the response page from NCBI
-	result_page = open(GET_URL).read
-
-	# The result may not be avaliable, waiting to run
-	while /class="WAITING"/.match(result_page).to_s.size > 0
-		# Waiting 2secs to try again
-		puts "Waiting more 5secs..."
-		sleep 5
-		# New Try
-		result_page = open(GET_URL).read
+	# Check if it's not a empty result page
+	if blast.check_if_no_result result_page
+		# Creates DNA object
+		@dna = DNA.new params[:dna]
+		
+		# Gets de DNA value, make upper case and remove space and new lines
+		@dna.treat_dna_string
+		@error_message = BLAST_ERROR
+		erb :'error'
+	else
+		# Format file to browser view
+		"<pre>" + result_page + "</pre>"
 	end
 
-	# Format to browser view
-	"<pre>" + result_page + "</pre>"
 end
 
 error do

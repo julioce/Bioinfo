@@ -29,7 +29,7 @@
 				Insira a sua sequência de bases de DNA e clique em "Traduzir"<br/> 
 			</p>
 			
-			<form method="POST">
+			<form method="POST" action="/">
 				<textarea id="dna" name="dna" rows="5", columns="300"><%=@dna.to_s%></textarea>
 				<div class="actions">
 					<input type="submit" value="Traduzir"/>
@@ -67,16 +67,33 @@
 					</tr>
 					<tr>
 						<td>Distribuição</td>
-						<td><%=(@distribution["a"]*100).round(2)%>%</td>
-						<td><%=(@distribution["c"]*100).round(2)%>%</td>
-						<td><%=(@distribution["g"]*100).round(2)%>%</td>
-						<td><%=(@distribution["t"]*100).round(2)%>%</td>
+						<% unless @distribution["a"].nil? %>
+							<td><%=(@distribution["a"]*100).round(2)%>%</td>
+						<% else %>
+							<td>0.00%</td>
+						<% end %>
+						<% unless @distribution["c"].nil? %>
+							<td><%=(@distribution["c"]*100).round(2)%>%</td>
+						<% else %>
+							<td>0.00%</td>
+						<% end %>
+						<% unless @distribution["g"].nil? %>
+							<td><%=(@distribution["g"]*100).round(2)%>%</td>
+						<% else %>
+							<td>0.00%</td>
+						<% end %>
+						<% unless @distribution["t"].nil? %>
+							<td><%=(@distribution["t"]*100).round(2)%>%</td>
+						<% else %>
+							<td>0.00%</td>
+						<% end %>
 					</tr>
 				</table>
 			</div>
 
 			<form method="POST" action="/blast">
 				<input type="hidden" name="protein" value="<%=@dna.protein_to_s @protein%>"/>
+				<input type="hidden" name="dna" value="<%=@dna.to_s%>"/>
 				<div class="actions">
 					<input type="submit" value="BLAST"/>
 				</div>
