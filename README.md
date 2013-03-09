@@ -1,12 +1,12 @@
 UFRJ - Universidade Federal do Rio de Janeiro
 =============
-Trabalho final para a Disciplina de Bioinformática da UFRJ
-Verificador e tradutor de DNA para proteína
+Trabalho final para a Disciplina de Bioinformática da UFRJ - Verificador e tradutor de DNA para proteína
 =============
 
 Requerimentos
 -----------
-	É necessaário que o sistema possua os seguintes artefatos instalados:
+É necessaário que o sistema possua os seguintes artefatos instalados:
+	
 	1. Ruby 1.93 ou superior
 	2. As seguintes rubygems instaladas
 		2a. sinatra
